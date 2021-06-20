@@ -14,15 +14,20 @@ class bcolors:
     RED 		= '\033[91m'
     ENDC 		= '\033[0m'
     BOLD 		= '\033[1m'
-    UNDERLINE 	= '\033[4m'
+    UNDERLINE		= '\033[4m'
 
-
+###INPUT FROM USER###
 _area = [35.35, 25.1, 35.3, 25.2]
 _time = [
             '00:00', '04:00', '08:00',
             '12:00', '16:00', '20:00',
         ]
+### ###
 
+
+filename = 'download.nc'
+
+#Get results from database
 c = cdsapi.Client()
 c.retrieve(
     'cams-europe-air-quality-forecasts',
@@ -41,19 +46,18 @@ c.retrieve(
             'carbon_monoxide'
         ],
     },
-    'download.nc')
+    filename)
 	
+nc = netCDF4.Dataset(filename) 
 
-fp='download.nc'
-nc = netCDF4.Dataset(fp) 
-
+#Will print the carbon levels with different colours
 def print_carbon(str, var):
 	if (var < 110) : print(str, bcolors.GREEN, var, bcolors.ENDC)
 	elif (var < 135) : print(str, bcolors.YELLOW, var, bcolors.ENDC)
 	else : print(str, bcolors.RED, var, bcolors.ENDC)
 
 iter = 0
-for time in nc['co_conc']:
+for time in nc['co_conc']: #for every given our from the start date till the end date
 	print("Time: ", _time[iter % len(_time)])
 	print_carbon("Carbon monoxide at 0m:   " , time[0][0][0]) #x,y is 0,0 for now. we look into one cube
 	print_carbon("Carbon monoxide at 50m:  " , time[1][0][0])
