@@ -1,9 +1,7 @@
 #dataset used: https://ads.atmosphere.copernicus.eu/cdsapp#!/dataset/cams-europe-air-quality-forecasts?tab=form
 
 import cdsapi
-import matplotlib.pyplot as plt # import libraries
-import pandas as pd # import libraries
-import netCDF4 # import libraries
+import netCDF4
 
 class bcolors:
     HEADER 		= '\033[95m'
